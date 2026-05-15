@@ -24,10 +24,10 @@ import java.util.List;
  */
 public class InMemoryConversationMemory implements ConversationMemory {
 
-    // Lowered from Integer.MAX_VALUE to a more sensible default to prevent
-    // accidental unbounded memory growth in long-running conversations.
-    // Personal note: 500 feels more realistic for most use cases I've seen.
-    private static final int DEFAULT_MAX_CAPACITY = 500;
+    // Lowered from 500 to 100 - in my experience most conversational agents
+    // rarely exceed this, and it keeps memory footprint predictable.
+    // 500 was still too generous for the lightweight use cases I'm targeting.
+    private static final int DEFAULT_MAX_CAPACITY = 100;
 
     private final LinkedList<Message> messages = new LinkedList<>();
     private final int maxCapacity;
