@@ -11,10 +11,19 @@ import java.util.List;
 /**
  * In-memory implementation of {@link ConversationMemory}.
  * Stores conversation messages in a bounded or unbounded in-memory list.
+ *
+ * <p>When a {@code maxCapacity} is set and the limit is reached, the oldest
+ * message is evicted before adding the new one (FIFO eviction policy).
+ *
+ * <p>Default max capacity is {@link Integer#MAX_VALUE} (effectively unbounded).
+ * For typical chat applications, a capacity of 100-200 messages is recommended
+ * to avoid unbounded memory growth.
  */
 public class InMemoryConversationMemory implements ConversationMemory {
 
-    private static final int DEFAULT_MAX_CAPACITY = Integer.MAX_VALUE;
+    // Lowered from Integer.MAX_VALUE to a more sensible default to prevent
+    // accidental unbounded memory growth in long-running conversations.
+    private static final int DEFAULT_MAX_CAPACITY = 1000;
 
     private final LinkedList<Message> messages = new LinkedList<>();
     private final int maxCapacity;
