@@ -28,7 +28,7 @@ public interface ConversationMemory {
      * Retrieves the last N messages from the conversation history.
      *
      * @param maxMessages maximum number of messages to retrieve
-     * @return a list of the most recent messages
+     * @return a list of the most recent messages, ordered from oldest to newest
      */
     List<Message> getMessages(int maxMessages);
 
@@ -43,4 +43,13 @@ public interface ConversationMemory {
      * @return message count
      */
     int size();
+
+    /**
+     * Returns whether the conversation history is empty.
+     *
+     * @return true if there are no messages, false otherwise
+     */
+    default boolean isEmpty() {
+        return size() == 0;
+    }
 }
