@@ -15,15 +15,19 @@ import java.util.List;
  * <p>When a {@code maxCapacity} is set and the limit is reached, the oldest
  * message is evicted before adding the new one (FIFO eviction policy).
  *
- * <p>Default max capacity is {@link Integer#MAX_VALUE} (effectively unbounded).
+ * <p>Default max capacity is {@value DEFAULT_MAX_CAPACITY} messages.
  * For typical chat applications, a capacity of 100-200 messages is recommended
  * to avoid unbounded memory growth.
+ *
+ * <p>Note: All public methods are synchronized for thread safety, making this
+ * implementation safe for use in concurrent environments.
  */
 public class InMemoryConversationMemory implements ConversationMemory {
 
     // Lowered from Integer.MAX_VALUE to a more sensible default to prevent
     // accidental unbounded memory growth in long-running conversations.
-    private static final int DEFAULT_MAX_CAPACITY = 1000;
+    // Personal note: 500 feels more realistic for most use cases I've seen.
+    private static final int DEFAULT_MAX_CAPACITY = 500;
 
     private final LinkedList<Message> messages = new LinkedList<>();
     private final int maxCapacity;
