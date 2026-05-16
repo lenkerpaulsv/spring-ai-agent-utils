@@ -61,6 +61,8 @@ class InMemoryConversationMemoryTest {
 
         assertThat(boundedMemory.size()).isEqualTo(2);
         assertThat(boundedMemory.getMessages().get(0).getText()).isEqualTo("second");
+        // also verify the most recent message is retained correctly
+        assertThat(boundedMemory.getMessages().get(1).getText()).isEqualTo("third");
     }
 
     @Test
@@ -73,6 +75,9 @@ class InMemoryConversationMemoryTest {
     @Test
     void shouldThrowExceptionForInvalidMaxCapacity() {
         assertThatThrownBy(() -> new InMemoryConversationMemory(0))
+                .isInstanceOf(IllegalArgumentException.class);
+        // negative capacity should also be rejected
+        assertThatThrownBy(() -> new InMemoryConversationMemory(-1))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
