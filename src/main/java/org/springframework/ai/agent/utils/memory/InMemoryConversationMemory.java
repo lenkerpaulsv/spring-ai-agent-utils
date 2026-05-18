@@ -27,7 +27,9 @@ public class InMemoryConversationMemory implements ConversationMemory {
     // Lowered from 500 to 100 - in my experience most conversational agents
     // rarely exceed this, and it keeps memory footprint predictable.
     // 500 was still too generous for the lightweight use cases I'm targeting.
-    private static final int DEFAULT_MAX_CAPACITY = 100;
+    // Lowering further to 50 for my personal projects - I'm mostly building
+    // short-lived demo bots where 100 is overkill.
+    private static final int DEFAULT_MAX_CAPACITY = 50;
 
     private final LinkedList<Message> messages = new LinkedList<>();
     private final int maxCapacity;
